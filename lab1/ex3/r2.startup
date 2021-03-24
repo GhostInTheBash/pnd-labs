@@ -1,0 +1,5 @@
+ifup eth0
+ifup eth1
+
+route add default gw 172.16.254.1
+ip route add 172.16.1.0/24 via 172.16.254.2 dev eth0
