@@ -1,6 +1,7 @@
 One router with two lans with two pcs. The assignment is: to configure the
 topology to use SLAAC IPv6 addresses. The router is already configured to
 advertise prefixes in both the lans.
+(https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-configuring_the_radvd_daemon_for_ipv6_routers)
 
 You should check the sysctl ipv6 settings. Sysctl write can only be done
 in the lab.conf OR in a priviledged container.
@@ -18,7 +19,7 @@ If I want to forward my packets, I must assume that I am a router. So i don't su
 		i want act as a router
 $ echo 0 > /proc/sys/net/ipv6/conf/all/forwarding 
 Function default: 
-			accept_ra enable if forwarding disable and vice versa
+	accept_ra enable if forwarding disable and vice versa
 
 
 - All the pcs of the topology must have GUA addresses.
