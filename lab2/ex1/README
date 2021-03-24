@@ -7,7 +7,24 @@ You have to provide static GUA addresses to the machines in the topology.
   2001:DB8:CAFE:2::/64 respectively
 
 - pc1, pc2, pc3 and pc4 must have in the Interface ID: 101, 102, 103 and
-  104 respectively.
+  104 respectively:
+In PC* 
+$ip addr add  2001:DB8:CAFE:1::10*/64  dev eth0      - for  GUA
+$ip addr add fe80::10*/64 dev eth0 			         	 - for LinkLocal
 
 - the router r1 has always 1 in the Interface ID of its own address,
-  both link-local and GUA
+  both link-local and GUA :
+In R1:
+$ip addr add fe80::1/64 dev eth0 (So i can $ping fe80::1%eth0 in another PC) - for link local
+$ip addr add fe80::1/64 dev eth1 (So i can $ping fe80::1%eth1 in another PC) - for link local
+
+$ip addr add 2001:DB8:CAFE:1::1/64 dev eth0 - for GUA
+$ip addr add 2001:DB8:CAFE:2::1/64 dev eth1 - for GUA
+
+We can't ping out the lan, we can reach only the host that belong at our network, 
+	because the routing table doesn't have ip to send the packet ($ ip -6 r)
+We must add the default gateway:
+	$ip -6 route add default via fe80::1 dev eth0 (eg. in PC2,PC1)
+Now if I ping PC3 ($ping 2001:DB8:CAFE:2::103) the packets recived by PC3 but PC1/PC2 doesn't see the reply
+We must add the default router to PC3:
+	$ip -6 route add default via fe80::1 dev eth0 (rg. in PC3,PC4)
