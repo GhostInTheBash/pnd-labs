@@ -20,3 +20,5 @@ The routers have to be configured as such:
 
 - To change the mtu of a link you can use the ip link set mtu command
   on both the end points of the link.
+
+#tcpdump -i eth0 -w /hosthome/Desktop/pnd-labs/lab2/ex5/pc2.mtu.pcap
