@@ -1,0 +1,28 @@
+pc1-------
+		r1 (IP: 192.168.100.30/28)
+pc2-------
+
+- r1:  network add. pool 192.168.100.16/28
+	In lab shell:
+		change settings in /etc/udhcpd.conf
+				start and end with range of disponible ip (i.e. 192.168.100.18 - 192.168.100.29)
+				dns 8.8.8.8
+				subnet 255.255.255.240
+				router 192.168.100.30
+		$ udhcpd /etc/udhcpd.conf
+
+- pc1: using interfaces file (see ex1)
+
+- pc2: using dhclient command
+	In lab shell:
+		$ dhclient eth0 -v
+
+-----------------------------------------------------------------------------------------
+Install the udhcpd deamon: in r1.startup 
+	dpkg -i /var/cache/apt/archives/*.deb
+	apt install -f udhcpd
+
+handle the dhcp pull
+-----------------------------------------------------------------------------------------
+
+DNS server 8.8.8.8
