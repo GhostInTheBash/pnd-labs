@@ -1,4 +1,5 @@
 umount /etc/resolv.conf
-#dpkg -i /shared/dibbler-client*.deb
-#apt install -y dibbler-client
+dpkg -i /shared/dibbler-client*.deb
+apt install -y dibbler-client
 
+dhclient #to 'ping pc2', add ipv4 , dibble is only for ipv6

@@ -2,4 +2,5 @@ echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 dpkg -i /shared/*.deb
 apt install -yf dnsmasq 
 
-
+/etc/init.d/networking restart
+echo 'conf-dir=/etc/dnsmasq.d/,*.conf' >> etc/dnsmasq.conf
