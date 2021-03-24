@@ -5,6 +5,22 @@ advertise prefixes in both the lans.
 You should check the sysctl ipv6 settings. Sysctl write can only be done
 in the lab.conf OR in a priviledged container.
 
+Priviledge mode: $sudo kathara lstart --privileged -> with this command we don't have all terminal open
+		but we must connect with them one by one. ($kathara connect pc*)
+
+To change parameter in priviledge mode:
+$ sysctl -w net.ipv6.conf.all.addr_gen_mode=1
+or also
+$ echo 1 > /proc/sys/net/ipv6/conf/all/addr_gen_mode
+
+Forwarding must be 0
+If I want to forward my packets, I must assume that I am a router. So i don't suppose to accept router advertisment if
+		i want act as a router
+$ echo 0 > /proc/sys/net/ipv6/conf/all/forwarding 
+Function default: 
+			accept_ra enable if forwarding disable and vice versa
+
+
 - All the pcs of the topology must have GUA addresses.
 
 - pc1, pc2 and pc3 have to use standard address.
@@ -12,12 +28,18 @@ in the lab.conf OR in a priviledged container.
 - pc1 has to use the default configuration for the Interface ID
 
 - pc2 has to use a Random Interface ID
+	$ echo 2 > /proc/sys/net/ipv6/conf/all/addr_gen_mode
 
 - pc3 has to use EUI-64
 
 - pc4 has to use the privacy extension in order to make it use
   temporary addresses. Set up a short lifetime in order to see multiple 
   addresses. 
+	$  echo 2 > /proc/sys/net/ipv6/conf/eth0/use_tempaddr
+	$ echo 600 > /proc/sys/net/ipv6/conf/all/temp_valid_lft 
+	$ echo 300 > /proc/sys/net/ipv6/conf/all/temp_prefered_lft 
 
 - router r1 is already set up. You only have to turn on the radvd server
   to capture the router advertisement packets. See the r1.startup file.
+
+We can see that with router advertisment we receive also the default rute
