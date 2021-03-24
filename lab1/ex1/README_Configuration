@@ -1,0 +1,72 @@
+------------------------------------------------------------------------------------------------------------
+if: mkdir pc* directory and in it create new file
+     this file is shown when we start the lab in pc* root
+-------------------------------------------------------------------------------------------------------------
+$ ip add - to see all the set ip
+$ ifup eth* - reload addr (iterface up + device that we want to take up)
+$ ip route -  default route, route for the local network(i.e. 192.168.100.24/29) by device, 
+							  			got by the source (i.e. 192.168.100.25)
+--------------------------------------------------------------------------------------------------------------
+host command used to do a DNS query, specify the domain server that we want query(ie: 8.8.8.8)
+--------------------------------------------------------------------------------------------------------------
+
+pc1----
+pc2----- r1 (IP: 192.168.100.30/29) 
+pc3-----
+
+- pc1: using interfaces file
+	lab.conf:
+		pc1[0] = "A" -> interface 0, network where interface is connected "A"
+		
+		In lab shell:
+			/etc/network/interface refer to directory /etc/network/interfece.d/ so we 
+			can use a file in this directory (see also manual web page). 
+			I.e.: /etc/network/interface.d/eth0 
+		In shell:
+			to remember forever, we can create 
+					$ mkdir pc1/etc/network/interfaces.d -p
+			and we can copy:
+		In lab shell:
+					$ cp etc/network/interfaces.d/eth0   /hosthome/pnd-labs/lab1/ex1/
+															/pc1/etc/network/inetrfaces.d/
+		In shell:
+			and in pc1.startup insert: 'ifup eth0' to turn up the inerface
+
+- pc2: using ip command
+	lab.conf:
+		pc2[0] = "A" -> interface 0, network where interface is connected "A"
+	
+		In lab shell:
+			$ ip addr add 192.168.100.26/29 broadcast 192.168.100.31 dev eth0
+				why 31 to broadcast? -> all one in the host part (24 = 11000, 31 = 11111)
+			(see the change with ip addr command)
+			$ ip route add default via 192.168.100.30
+			(see the change with ip route command)
+			$ cat > /etc/resolv.conf - nameserver 8.8.8.8
+			(ping 8.8.8.8 or ping www.google.com or wget www.google.com)
+
+- pc3: using ifconfig command
+	lab.conf:
+		pc3[0] = "A" -> interface 0, network where interface is connected "A"
+		
+		In lab shell:
+			$ ifconfig eth0 192.168.100.27 netmask 255.255.255.248 
+			(see the change with ipconfig)
+			$ route add default gw 192.168.100.30
+			(see the change with route)
+			$ cat > /etc/resolv.conf - nameserver 8.8.8.8
+
+--------------------------------------------------------------------------------------------------------------------
+To save the configuration we can inser the command in pc*.startup
+--------------------------------------------------------------------------------------------------------------------
+if not work 'ping www.google.com' see in /etc/resolv.conf if there is nameserver.
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+r1 already setup
+	lab.conf:
+		r1[0] = "A" -> interface 0, network where interface is connected "A"
+		r1[bridged]=true -> configure to povide internet (our default gateway)
+
+DNS can be 8.8.8.8
