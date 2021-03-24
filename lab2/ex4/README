@@ -21,3 +21,18 @@ You can use dibbler+radvd or dhcp6c+dnsmasq.
 - With dibbler, you will have to use a script to make router assigning an address to
   the interface in the network of the prefix. This will be used as the
   address radvd will advertise in the network for SLAAC configuration.
+
+
+#DIBBLER+RADVD
+- add sys information in lab.conf
+- add radvd.conf in r1/ect to ra
+- add dibbler.conf and dibbler-notify.script in r1/etc/dibbler to require ipv6 to ISP and assigned it
+- add information in r1, to execute the script, the radvd deamon and the dibbler-client
+- network ??? https://wiki.debian.org/IPv6PrefixDelegation
+- set the alias in r1/etc/network/interfaces
+
+
+USEFUL LINK
+- https://johnsiu.com/blog/linux-dhcpv6-pd/
+- https://wiki.debian.org/IPv6PrefixDelegation
+

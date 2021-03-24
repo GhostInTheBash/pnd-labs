@@ -1,0 +1,18 @@
+iface eth0 inet6 auto
+	dhcp 1
+	request_prefix 1
+
+iface eth1 inet6 manual
+
+iface eth2 inet6 manual
+
+#alias
+auto eth1:1
+iface eth1:1 inet6 static
+    address FE80::1
+    netmask 64
+
+auto eth2:1
+iface eth2:1 inet6 static
+    address FE80::1
+    netmask 64
