@@ -3,3 +3,5 @@ ip addr add 192.168.10.1/24 dev eth1
 
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 
+iptables -A FORWARD -d 192.168.100.80 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -d 192.168.100.80 -j DROP

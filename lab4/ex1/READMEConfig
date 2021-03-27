@@ -1,0 +1,13 @@
+To configure connection between kathara machine and lab docker
+
+$./connect.sh <ip of machine/subnet> <network> -> ./connect 192.168.10.2/24 external
+$sudo ip r add <ip of subnet> via <ip of gateway> -> sudo ip add 192.168.100.0/24 via 192.168.10.1
+
+To allow only http traffic:
+1. In r1: 
+$ iptables -A FORWARD -d 192.168.100.80 -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+-To enable http request in port 80 towards s1
+
+2. In r1:
+$ iptables -A FORWARD -d 192.168.100.80 -j DROP
+-To disable comunication towards s1
