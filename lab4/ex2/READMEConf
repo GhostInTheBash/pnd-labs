@@ -1,0 +1,4 @@
+To connect with lab
+$  ../../connect-lab.sh 2001:db8:cafe:2::2/64 external
+$ sudo ip -6 route add 2001:db8:cafe:1::/64 via 2001:db8:cafe:2::1 dev veth0
+

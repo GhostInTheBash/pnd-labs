@@ -10,3 +10,18 @@ radvd -m logfile -l /var/log/radvd.log
 
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 
+#Drop all for s1 -> ip6tables -A FORWARD -d 2001:db8:cafe:1::80 -j DROP
+#Flush iptable -> ip6tables -F
+#Show ip6tables ->  ip6tables -L -n
+
+ip6tables -P INPUT DROP
+ip6tables -P OUTPUT DROP
+ip6tables -P FORWARD DROP
+
+#Allow icmp request - RFC 4890
+ip6tables -A INPUT -p ipv6-icmp -j ACCEPT
+ip6tables -A OUTPUT -p ipv6-icmp -j ACCEPT
+ip6tables -A FORWARD -p ipv6-icmp -j ACCEPT
+
+ip6tables -A FORWARD -p tcp --dport 80 -m state --state NEW,ESTABLISHED -j ACCEPT
+ip6tables -A FORWARD -p tcp --sport 80 -m state --state ESTABLISHED,RELATED -j ACCEPT
