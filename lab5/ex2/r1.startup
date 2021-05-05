@@ -1,0 +1,22 @@
+ip addr add 100.60.10.1/16 dev eth0
+ip addr add 192.168.1.1/24 dev eth1
+
+dpkg -i /shared/*.deb
+
+#Comment if u want to do set-by-step
+
+openvpn --genkey --secret secret.key
+cp secret.key /shared/secret.key
+
+touch a.conf
+
+echo "port 1194
+proto udp
+dev tun
+secret secret.key
+cipher AES-256-CBC
+ifconfig 10.10.10.1 10.10.10.2" > a.conf
+
+openvpn --config a.conf &
+
+#ip route add 192.168.2.0/24 via 10.10.10.2 (add yourself)
