@@ -1,4 +1,37 @@
 ip addr add 100.90.0.100/16 dev eth0
 ip route add default via 100.90.0.1
 
-apt install -y ipsec-tools racoon
+dpkg -i /shared/*.deb
+
+#ESP
+echo 'flush;
+spdflush;
+
+spdadd 100.60.0.100 100.90.0.100 any -P in ipsec
+    esp/transport//require;
+spdadd 100.90.0.100 100.60.0.100 any -P out ipsec
+    esp/transport//require;
+
+add 100.60.0.100 100.90.0.100 esp 701 -E 3des-cbc
+	0xe9ec24e80e021d14498d27a648b2655431603e6110917b3d;
+add 100.90.0.100 100.60.0.100 esp 702 -E 3des-cbc
+	0xe9ec24e80e021d14498d27a648b2655431603e6110917b3c;
+
+#AH - decomment to use this
+#flush;
+#spdflush;
+
+#spdadd 100.60.0.100 100.90.0.100 any -P in ipsec
+#    ah/transport//require;
+#spdadd 100.90.0.100 100.60.0.100 any -P out ipsec
+#    ah/transport//require;
+
+#add 100.60.0.100 100.90.0.100 ah 701 -A hmac-sha1
+#	0x08897c9ac6906d4878097da4853ae50a3fa9ebbc;
+#add 100.90.0.100 100.60.0.100 ah 702 -A hmac-sha1
+#	0x08897c9ac6906d4878097da4853ae50a3fa9ebbd;'  > /etc/ipsec-tools.conf
+
+
+/etc/init.d/setkey start
+
+
