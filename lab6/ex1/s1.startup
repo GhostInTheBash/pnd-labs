@@ -6,3 +6,8 @@ echo "user:password" | chpasswd
 echo nameserver 8.8.8.8 > /etc/resolv.conf
 
 /etc/init.d/ssh start
+
+#Delete the following line if you want do it step-by-step
+dpkg -i /var/cache/apt/archives/*.deb
+squid start 
+

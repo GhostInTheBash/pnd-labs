@@ -3,3 +3,4 @@ allow http and https through proxy and configure the proxy to use
 authentication of the clients. 
 
 Install proxy squid (apt install squid) from proxy server.
+dpkg -i var/cache/apt/archives/*.deb
